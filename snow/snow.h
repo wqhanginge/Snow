@@ -4,14 +4,16 @@
 
 
 struct Snow {
+    static constexpr float DEFTDPI = USER_DEFAULT_SCREEN_DPI;
     static constexpr float DEFTFPS = 60;
     static constexpr float BASEPPS = 12;
     static constexpr float FASTPPS = 240;
     static constexpr float SLOWPPS = 60;
+    static constexpr float FADEPPS = 30;
     static constexpr float FADELEN = 20;
 
     float size;
-    float pixel_per_frame;
+    float pixel_per_second;
     float x;
     float y;
     float ground;
@@ -20,16 +22,16 @@ struct Snow {
     constexpr float alpha() const { //fade out if touch the ground
         return 1 - clamp<float>(y - ground, 0, FADELEN) / FADELEN;
     }
-    constexpr float pps(float dpi = USER_DEFAULT_SCREEN_DPI) const {    //pps by snow size
-        return clamp<float>(BASEPPS * size * USER_DEFAULT_SCREEN_DPI / dpi, SLOWPPS, FASTPPS);
+    constexpr float speed(float dpi = DEFTDPI) const {  //pixel per second by snow size
+        return clamp<float>(BASEPPS * size * DEFTDPI / dpi, SLOWPPS, FASTPPS);
     }
-    inline void step(float fps = DEFTFPS) { //move to next frame
-        y += (y - ground >= 0 && y - ground < FADELEN) ? SLOWPPS / fps / 2 : pixel_per_frame;
+    constexpr float step(float fps = DEFTFPS) const {   //pixel per frame by snow speed and position
+        return (y - ground >= 0 && y - ground < FADELEN) ? FADEPPS / fps : pixel_per_second / fps;
     }
 };
 
 struct SnowList {
-    static constexpr std::array<float, 5> SnowSizes = { 3, 5, 8, 12, 20 };
+    static constexpr std::array<float, 5> SNOWSIZES = { 3, 5, 8, 12, 20 };
     static constexpr UINT FPS = 60;
     static constexpr UINT MAXSLEEPFRAMES = (FPS * 30);
     static constexpr UINT COUNTPERSIZE = 20;
@@ -45,8 +47,12 @@ struct SnowList {
 
     SnowList(UINT xres, UINT yres, UINT ground, UINT dpi, UINT seed = std::mt19937::default_seed);
     void refreshSnowState(Snow& snow);
-    void updateSnowGround(Snow& snow);
     void refreshList();
-    void updateGround();
+    void applyGround();
     void nextFrame();
+
+    inline auto begin() { return list.begin(); }
+    inline auto begin() const { return list.begin(); }
+    inline auto end() { return list.end(); }
+    inline auto end() const { return list.end(); }
 };

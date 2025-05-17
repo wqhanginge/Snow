@@ -1,6 +1,6 @@
 # snow
 
-This repository is an animated snow wallpaper on **Windows**, which is implemented with **Direct2D** and **D3D11**.
+This repository is a simple animated snow wallpaper on **Windows**, which is implemented with **Direct2D** and **D3D11**.
 
 This repository is a project of **Visual Studio 2022**. To open this project in **Visual Studio**, just open the solution file `snow.sln`.
 
@@ -17,5 +17,5 @@ This repository is a project of **Visual Studio 2022**. To open this project in 
 
 ## License
 
-Copyright (C) 2023 Gee Wang.  
+Copyright (C) 2023 Gee Wang\
 Licensed under the [GNU GPL v3](./LICENSE).

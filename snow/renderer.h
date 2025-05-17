@@ -41,10 +41,10 @@ class SnowRenderer {
 public:
     SnowRenderer() :_scx(0), _scy(0), _width(0), _height(0), _hwnd(nullptr) {}
     ~SnowRenderer() noexcept { _releaseRenderer(); _snow_bmp.Reset(); }
-    HRESULT initialize(UINT cx, UINT cy, HICON hisnow, UINT width, UINT height, HWND hwnd);
+    HRESULT initialize(HICON hisnow, UINT width, UINT height, HWND hwnd);
     HRESULT refreash();
     HRESULT presentTest();
-    HRESULT render(const std::vector<Snow>& snows, float alpha = 1.0f);
+    HRESULT render(const SnowList& snows, float alpha = 1.0f);
     HRESULT resize(UINT width, UINT height);
     HRESULT setWindow(HWND hwnd);
 };

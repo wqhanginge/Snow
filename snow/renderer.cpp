@@ -9,6 +9,7 @@ void SnowRenderer::_loadSnowBitmap(HICON hisnow) {
     ComPtr<IWICBitmap> wic_bmp;
     HR(wic_factory->CreateBitmapFromHICON(hisnow, wic_bmp.GetAddressOf()));
     HR(WICConvertBitmapSource(GUID_WICPixelFormat32bppPBGRA, wic_bmp.Get(), _snow_bmp.GetAddressOf()));
+    HR(_snow_bmp->GetSize(&_scx, &_scy));
 }
 
 void SnowRenderer::_createDevice() {
@@ -115,18 +116,15 @@ void SnowRenderer::_releaseRenderer(bool post_swap_chain /*flase*/) noexcept {
     }
 }
 
-HRESULT SnowRenderer::initialize(UINT cx, UINT cy, HICON hisnow, UINT width, UINT height, HWND hwnd) {
-    if (!cx && !cy && !hisnow && !width && !height && !hwnd) return E_INVALIDARG;
-    _scx = cx;
-    _scy = cy;
+HRESULT SnowRenderer::initialize(HICON hisnow, UINT width, UINT height, HWND hwnd) {
+    if (!hisnow && !width && !height && !hwnd) return E_INVALIDARG;
     _width = width;
     _height = height;
     _hwnd = hwnd;
     try {
         _loadSnowBitmap(hisnow);
         _createRenderer();
-    }
-    catch (ComException& ce) {
+    } catch (ComException& ce) {
         return ce.hr;
     }
     return S_OK;
@@ -136,18 +134,17 @@ HRESULT SnowRenderer::refreash() {
     try {
         _releaseRenderer();
         _createRenderer();
-    }
-    catch (ComException& ce) {
+    } catch (ComException& ce) {
         return ce.hr;
     }
     return S_OK;
 }
 
-HRESULT SnowRenderer::presentTest(){
+HRESULT SnowRenderer::presentTest() {
     return _dxgi_swap_chain->Present(1, DXGI_PRESENT_TEST);
 }
 
-HRESULT SnowRenderer::render(const std::vector<Snow>& snows, float alpha /*1.0f*/) {
+HRESULT SnowRenderer::render(const SnowList& snows, float alpha /*1.0f*/) {
     _d2d_dc->BeginDraw();
     _d2d_dc->Clear();
 
@@ -173,8 +170,7 @@ HRESULT SnowRenderer::resize(UINT width, UINT height) {
         try {
             HR(_dxgi_swap_chain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, 0));
             _createRenderer(true);
-        }
-        catch (ComException& ce) {
+        } catch (ComException& ce) {
             return ce.hr;
         }
     }
@@ -188,8 +184,7 @@ HRESULT SnowRenderer::setWindow(HWND hwnd) {
         _dcomp_target.Reset();
         try {
             _createDCompTarget(hwnd);
-        }
-        catch (ComException& ce) {
+        } catch (ComException& ce) {
             return ce.hr;
         }
     }

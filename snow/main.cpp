@@ -53,7 +53,7 @@ inline bool isInMonitor(HWND hwnd, HMONITOR hmon) {
 }
 
 HRESULT tryRender(SnowRenderer& sr, SnowList& sl, HRESULT hr, float alpha = 1.0f) {
-    hr = (hr == DXGI_STATUS_OCCLUDED) ? sr.presentTest() : sr.render(sl.list, alpha);
+    hr = (hr == DXGI_STATUS_OCCLUDED) ? sr.presentTest() : sr.render(sl, alpha);
     if (hr != S_OK && hr != DXGI_STATUS_OCCLUDED) { //error occur, refresh device and discard this frame
         hr = SUCCEEDED(sr.refreash()) ? S_FALSE : E_UNEXPECTED;
     }
@@ -82,7 +82,7 @@ LRESULT CALLBACK SnowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
         SetWindowLongPtr(hwnd, WNDEX_SNOWWNDDATA, (LONG_PTR)pswd);
 
         HICON hico = (HICON)LoadImage(lpcs->hInstance, MAKEINTRESOURCE(IDI_SNOW), IMAGE_ICON, SNOW_BMPSIZE, SNOW_BMPSIZE, LR_DEFAULTCOLOR);
-        pswd->hr = psr->initialize(SNOW_BMPSIZE, SNOW_BMPSIZE, hico, lpcs->cx, lpcs->cy, hwnd);
+        pswd->hr = psr->initialize(hico, lpcs->cx, lpcs->cy, hwnd);
         DestroyIcon(hico);
 
         SetWindowPos(hwnd, HWND_BOTTOM, lpcs->x, lpcs->y, lpcs->cx, lpcs->cy, SWP_NOACTIVATE | SWP_NOREDRAW);
@@ -142,7 +142,7 @@ LRESULT CALLBACK SnowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
             UINT ground = monii.rcWork.bottom - monii.rcMonitor.top;
             if (ground != psl->ground) {
                 psl->ground = ground;
-                psl->updateGround();
+                psl->applyGround();
             }
         }
         return 0;
@@ -318,13 +318,11 @@ LRESULT onDisplayChange(HWND hwnd, WPARAM wparam, LPARAM lparam) {
             PostMessage(item.second.hwnd, WM_SNOWCLOSE, 0, 0);
             item.second.th.join();
             it = ptm->erase(it);
-        }
-        else if (!item.second.running) {    //start animation for new threads
+        } else if (!item.second.running) {  //start animation for new threads
             PostMessage(item.second.hwnd, WM_SNOWSTART, 0, 0);
             item.second.running = true;
             ++it;
-        }
-        else {
+        } else {
             ++it;
         }
     }

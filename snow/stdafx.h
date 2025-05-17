@@ -1,9 +1,14 @@
 #pragma once
 
-#ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
-#endif
 
+#include <array>
+#include <vector>
+#include <unordered_map>
+#include <random>
+#include <thread>
+
+#include <tchar.h>
 #include <Windows.h>
 #include <shellapi.h>
 
@@ -15,13 +20,6 @@
 #include <d2d1_3helper.h>
 #include <dcomp.h>
 
-#include <tchar.h>
-#include <random>
-#include <thread>
-
-#include <array>
-#include <vector>
-#include <unordered_map>
 #include "resource.h"
 
 #pragma comment(lib, "windowscodecs.lib")
