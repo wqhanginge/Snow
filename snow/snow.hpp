@@ -1,6 +1,6 @@
 #pragma once
 
-#include "stdafx.h"
+#include "stdafx.hpp"
 
 
 struct Snow {
@@ -42,10 +42,11 @@ struct SnowList {
     UINT yres;
     UINT ground;
     UINT dpi;
+    std::minstd_rand urand;
     std::vector<Snow> list;
-    std::mt19937 urand;
 
-    SnowList(UINT xres, UINT yres, UINT ground, UINT dpi, UINT seed = std::mt19937::default_seed);
+    SnowList(UINT seed = std::minstd_rand::default_seed) :urand(seed) {}
+    void initialize(UINT xres, UINT yres, UINT ground, UINT dpi);
     void refreshSnowState(Snow& snow);
     void refreshList();
     void applyGround();

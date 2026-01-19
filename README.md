@@ -10,12 +10,7 @@ This repository is a project of **Visual Studio 2022**. To open this project in 
 - Basic multi-monitor support.
 - Work on **Windows 10** by default.
 
-## Directory Structure
-
-- `snow/`:
-  Contains source and resource files.
-
 ## License
 
 Copyright (C) 2023 Gee Wang\
-Licensed under the [GNU GPL v3](./LICENSE).
+Licensed under the [GPLv3](./LICENSE).

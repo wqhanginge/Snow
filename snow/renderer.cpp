@@ -1,5 +1,5 @@
-#include "stdafx.h"
-#include "renderer.h"
+#include "stdafx.hpp"
+#include "renderer.hpp"
 
 
 void SnowRenderer::_loadSnowBitmap(HICON hisnow) {

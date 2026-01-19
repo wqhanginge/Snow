@@ -1,7 +1,7 @@
 #pragma once
 
-#include "stdafx.h"
-#include "snow.h"
+#include "stdafx.hpp"
+#include "snow.hpp"
 
 
 struct ComException {

@@ -1,10 +1,12 @@
-#include "stdafx.h"
-#include "snow.h"
+#include "stdafx.hpp"
+#include "snow.hpp"
 
 
-SnowList::SnowList(UINT xres, UINT yres, UINT ground, UINT dpi, UINT seed /*std::mt19937::default_seed*/)
-    :xres(xres), yres(yres), ground(ground), dpi(dpi), list(), urand(seed)
-{
+void SnowList::initialize(UINT xres, UINT yres, UINT ground, UINT dpi) {
+    this->xres = xres;
+    this->yres = yres;
+    this->ground = ground;
+    this->dpi = dpi;
     refreshList();
 }
 

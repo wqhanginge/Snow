@@ -15,16 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="snow\renderer.h">
+    <ClInclude Include="snow\renderer.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="snow\resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="snow\snow.h">
+    <ClInclude Include="snow\snow.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="snow\stdafx.h">
+    <ClInclude Include="snow\stdafx.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
