@@ -317,11 +317,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 }
 
 
-ATOM WINAPI RegisterClassExWrapper(LPCTSTR lpClsName, WNDPROC lpfnWndProc, HINSTANCE hInst, int cbWndExtra) {
+ATOM WINAPI RegisterClassExWrapper(LPCTSTR lpClsName, WNDPROC lpfnWndProc, int cbWndExtra) {
     WNDCLASSEX wndc = { sizeof(WNDCLASSEX) };
     wndc.lpszClassName = lpClsName;
     wndc.lpfnWndProc = lpfnWndProc;
-    wndc.hInstance = hInst;
+    wndc.hInstance = GetModuleHandle(nullptr);
     wndc.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wndc.cbWndExtra = cbWndExtra;
     return RegisterClassEx(&wndc);
@@ -334,8 +334,8 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
         return (int)dwerr;
     }
 
-    RegisterClassExWrapper(TEXT(SNOWWNDCLS_NAME), SnowProc, hInstance, WNDEX_SNOWEXSIZE);
-    RegisterClassExWrapper(TEXT(MAINWNDCLS_NAME), WndProc, hInstance, WNDEX_MAINEXSIZE);
+    RegisterClassExWrapper(TEXT(SNOWWNDCLS_NAME), SnowProc, WNDEX_SNOWEXSIZE);
+    RegisterClassExWrapper(TEXT(MAINWNDCLS_NAME), WndProc, WNDEX_MAINEXSIZE);
 
     SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
 
@@ -355,7 +355,9 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 
     MSG msg;
     while (GetMessage(&msg, nullptr, 0, 0) > 0) {
-        if (msg.message == tbmsg) msg.message = WM_MAINNIINSERT;    //redirect taskbar created message
+        if (msg.message == tbmsg) { //handle taskbar created message
+            PostMessage(hwnd, WM_MAINNIINSERT, TRUE, 0);
+        }
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
