@@ -1,14 +1,13 @@
-# snow
+# Snow
 
-This repository is a simple animated snow wallpaper on **Windows**, which is implemented with **Direct2D** and **D3D11**.
+This repository features a lightweight animated snow wallpaper for **Windows‌**, built using ‌**Direct2D**‌ and ‌**Direct3D 11**.
 
-This repository is a project of **Visual Studio 2022**. To open this project in **Visual Studio**, just open the solution file `snow.sln`.
+![preview](./preview.webp)
 
-## Features
+## Highlights
 
-- High animation frame rate of 60 fps.
-- Basic multi-monitor support.
-- Work on **Windows 10** by default.
+- **60 FPS** animation‌ for fluid snowfall effects.
+- Automatically extend animation across multiple monitors.
 
 ## License
 

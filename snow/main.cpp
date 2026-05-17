@@ -148,7 +148,7 @@ LRESULT CALLBACK SnowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 
 void wallpaperThread(HMONITOR hmon, HWND hmain) {
     HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED); //for WIC
-    SnowWindow sw{ S_OK, hmon, { std::random_device{}() }, {} };
+    SnowWindow sw{ S_OK, hmon, SnowList{ std::random_device{}() }, SnowRenderer{} };
 
     HWND hwnd = CreateWindowEx(
         WS_EX_NOREDIRECTIONBITMAP | WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW,

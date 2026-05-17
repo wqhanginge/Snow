@@ -17,7 +17,7 @@ struct Snow {
     float x;
     float y;
     float ground;
-    UINT sleep_frames;
+    unsigned sleep_frames;
 
     constexpr float alpha() const { //fade out if touch the ground
         return 1 - clamp<float>(y - ground, 0, FADELEN) / FADELEN;
@@ -45,7 +45,8 @@ struct SnowList {
     std::minstd_rand urand;
     std::vector<Snow> list;
 
-    SnowList(UINT seed = std::minstd_rand::default_seed) :urand(seed) {}
+    SnowList() = default;
+    explicit SnowList(unsigned seed) :urand(seed) {}
     void initialize(UINT xres, UINT yres, UINT ground, UINT dpi);
     void refreshSnowState(Snow& snow);
     void refreshList();

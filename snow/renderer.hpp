@@ -40,8 +40,8 @@ class SnowRenderer {
 
 public:
     SnowRenderer() :_scx(0), _scy(0), _width(0), _height(0), _hwnd(nullptr) {}
-    ~SnowRenderer() noexcept { _releaseRenderer(); _snow_bmp.Reset(); }
     HRESULT initialize(HICON hisnow, UINT width, UINT height, HWND hwnd);
+    HRESULT reset() noexcept;
     HRESULT refreash();
     HRESULT presentTest();
     HRESULT render(const SnowList& snows, float alpha = 1.0f);

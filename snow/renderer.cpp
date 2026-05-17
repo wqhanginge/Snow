@@ -130,6 +130,14 @@ HRESULT SnowRenderer::initialize(HICON hisnow, UINT width, UINT height, HWND hwn
     return S_OK;
 }
 
+HRESULT SnowRenderer::reset() noexcept {
+    _releaseRenderer();
+    _snow_bmp.Reset();
+    _hwnd = nullptr;
+    _scx = _scy = _width = _height = 0;
+    return S_OK;
+}
+
 HRESULT SnowRenderer::refreash() {
     try {
         _releaseRenderer();
